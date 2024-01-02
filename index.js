@@ -10,7 +10,11 @@ app.set('views',path.join(__dirname,'views'));
 const bodyParser=require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
 
-
+//middleware1
+app.use(function(req,res,next){
+    req.myName="pranav kulkarni";
+    next();
+});
 
 var contactList=[
     {
@@ -29,6 +33,7 @@ var contactList=[
 ]
 
 app.get('/',function(req,res){
+    console.log("Myname here: ",req.myName);
     return res.render('home',{title:"pranavs page!",contact_list:contactList});
 })
 
