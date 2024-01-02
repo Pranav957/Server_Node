@@ -3,18 +3,22 @@
         <title><%=  title %></title>
     </head>
     <body>
-        <h1>renderd from ejs!</h1>
+        <h1>Contact List!</h1>
        
             <ul>
-                <% for(let i=1;i<6;i++) { %>
-                    <li><%= i %></li>
+                <% for(let i of contact_list) { %>
+                    <li>
+                        <p><%= i.name %></p>
+                          <p><%= i.phone %></p>
+                    </li>
                  <% } %>  
-            </ul>
-            <% if(true) { %>
-                <h1>its true</h1>
-            <% } else {%>
-                <p>Its false</p>
-             <% } %>       
-         
+            </ul>      
+           <div>
+              <form action="/create-contact" method="post">
+                <input type="text" name="name" placeholder="Enter Name" required/>
+                <input type="number" name="phone" placeholder="Enter Phone" required/>
+                <button type="submit">ADD CONTACT</button>
+              </form>
+           </div>
     </body>
 </html>

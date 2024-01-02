@@ -5,10 +5,37 @@ const port=8000;
 const app=express();
 
 app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'views'))
+app.set('views',path.join(__dirname,'views'));
+// app.use(express.urlencoded());   //deprecated syntax
+const bodyParser=require('body-parser');
+app.use(bodyParser.urlencoded({extended:false}));
+
+
+
+var contactList=[
+    {
+        name:"pranav",
+        phone:"1111111111"
+    },
+    {
+        name:"Arnav",
+        phone:"22222222222"
+    },
+    {
+        name:"Rohit",
+        phone:"33333333333"
+    },
+
+]
 
 app.get('/',function(req,res){
-    return res.render('home',{title:"pranavs page!"});
+    return res.render('home',{title:"pranavs page!",contact_list:contactList});
+})
+
+app.post('/create-contact',function(req,res){
+    console.log(req.body);
+    contactList.push(req.body);
+    return res.redirect('/');
 })
 
 app.listen(port,function(err){
