@@ -64,13 +64,16 @@ app.post('/create-contact',function(req,res){
 
 app.get('/delete-contact/',function(req,res){
     console.log(req.query);
-     phone=req.query.phone;
-     let contactIndex=contactList.findIndex(contact=>contact.phone==phone);
-     if(contactIndex!=-1)
-     {
-       contactList.splice(contactIndex,1);
-     }
-    return res.redirect('back');
+     id=req.query.id;
+
+     Contact.findByIdAndDelete(id).then(function(){
+        return res.redirect('back');
+     }).catch(function(err){
+        console.log("error occured while deleting",err);
+        res.status(500).send("Internel server Error");
+     })
+     
+    
 })
 
 app.listen(port,function(err){
