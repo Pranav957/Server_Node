@@ -2,6 +2,9 @@ const express=require('express');
 const path=require('path');
 const port=8000;
 
+const db=require('./config/mongoose');
+const Contact=require('./models/contact');
+
 const app=express();
 
 app.set('view engine','ejs');
@@ -35,19 +38,39 @@ var contactList=[
 
 app.get('/',function(req,res){
     console.log("Myname here: ",req.myName);
-    return res.render('home',{title:"pranavs page!",contact_list:contactList});
+    Contact.find({}).then(function(allContact){
+        return res.render('home',{
+            title:"pranavs page!",
+            contact_list:allContact
+        });
+    }).catch(function(err){
+        console.log(err);
+        res.status(500).send('Internel Server Error');
+    })
+    // return res.render('home',{title:"pranavs page!",contact_list:contactList});
 })
 
 app.post('/create-contact',function(req,res){
     console.log(req.body);
-    contactList.push(req.body);
-    return res.redirect('/');
+    Contact.create(req.body).then(function(newContact){
+        console.log("*****************new contact",newContact);
+         return res.redirect('back');
+    }).catch(function(err){
+        console.log("error occured",err);
+    })
+    // contactList.push(req.body);
+    // return res.redirect('/');
 })
 
-app.get('/delete-contact/:phone',function(req,res){
-    console.log(req.params);
-    var phone=req.params.phone;
-    return res.redirect('/');
+app.get('/delete-contact/',function(req,res){
+    console.log(req.query);
+     phone=req.query.phone;
+     let contactIndex=contactList.findIndex(contact=>contact.phone==phone);
+     if(contactIndex!=-1)
+     {
+       contactList.splice(contactIndex,1);
+     }
+    return res.redirect('back');
 })
 
 app.listen(port,function(err){
