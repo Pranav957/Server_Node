@@ -20,7 +20,13 @@ for(let x of arr)
   console.log(x);
 
 for(let x in arr)
-  console.log(x);  
+  console.log(x);
+
+  var pp=[...arr];
+  console.log(pp);
+  
+  var mp=arr.map(el=>el)
+    console.log(mp);
   
  
  arr.length;
@@ -41,6 +47,12 @@ for(let x in arr)
 
 for(let x in student)
   console.log(x);  
+
+  
+  var raj={...student}
+  console.log(raj);
+  var Virat=Object.assign({},raj);
+    console.log(Virat);
  
  console.log(Object.keys(student)) 
  console.log(Object.getOwnPropertyNames(student)) 
